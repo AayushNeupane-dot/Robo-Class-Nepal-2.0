@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Now - Robo Class Nepal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        :root {
+            --primary: #0062ff;
+            --secondary: #00d8ff;
+            --neon: #00ffbb;
+            --dark: #0a1128;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 8px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 98, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 98, 255, 0.4);
+        }
+        
+        .btn-enroll {
+            background: linear-gradient(135deg, var(--neon), var(--secondary));
+            font-weight: 600;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Enrollment Section */
+        .enrollment-section {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            background: linear-gradient(to right, rgba(10, 17, 40, 0.03), rgba(10, 17, 40, 0.06));
+        }
+
+        .enrollment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .enrollment-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .enrollment-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .enrollment-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .enrollment-form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .enrollment-form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .enrollment-form-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .enrollment-form-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e1e5eb;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 98, 255, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #a0a8b3;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e1e5eb;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 15px) center;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 98, 255, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-label input {
+            margin-right: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .enrollment-benefits {
+            background-color: rgba(0, 98, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .enrollment-benefits h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .enrollment-benefits h4 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .benefits-list li i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 0.8rem;
+            padding-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: all 0.5s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+
+            .enrollment-container {
+                grid-template-columns: 1fr;
+            }
+
+            .enrollment-image {
+                order: 2;
+            }
+
+            .enrollment-form-container {
+                order: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .enrollment-section {
+                padding-top: 100px;
+                padding-bottom: 60px;
+            }
+
+            .enrollment-form-container {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 10px 0;
+            }
+            
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+
+            .enrollment-form-header h2 {
+                font-size: 1.7rem;
+            }
+
+            .enrollment-benefits {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="robo class nepal (1).png" alt="Robo Class Nepal Logo">
+                    <h1>Robo Class Nepal</h1>
+                </div>
+                
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#courses">Courses</a></li>
+                    <li><a href="index.html#events">Events</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#testimonials">Testimonials</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="enrollment.html" class="btn btn-enroll active">Enroll Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Enrollment Section -->
+    <section class="enrollment-section">
+        <div class="container">
+            <div class="enrollment-container">
+                <div class="enrollment-image fade-in">
+                    <img src="/api/placeholder/600/700" alt="Students learning robotics">
+                </div>
+                
+                <div class="enrollment-form-container fade-in delay-1">
+                    <div class="enrollment-form-header">
+                        <h2>Enroll Now</h2>
+                        <p>Join our innovative tech courses and start your journey to becoming a future tech leader</p>
+                    </div>
+                    
+                    <form id="enrollmentForm" action="#" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name <span style="color: red;">*</span></label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter your first name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name <span style="color: red;">*</span></label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter your last name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address <span style="color: red;">*</span></label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number <span style="color: red;">*</span></label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter your phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentName" class="form-label">Student's Name (if different from above)</label>
+                            <input type="text" id="studentName" name="studentName" class="form-control" placeholder="Enter student's name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentAge" class="form-label">Student's Age <span style="color: red;">*</span></label>
+                            <input type="number" id="studentAge" name="studentAge" class="form-control" min="8" max="20" placeholder="Enter student's age" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="course" class="form-label">Select Course <span style="color: red;">*</span></label>
+                            <select id="course" name="course" class="form-select" required>
+                                <option value="" disabled selected>Choose a course</option>
+                                <option value="basic-robotics">Basic Robotics (Ages 8-12)</option>
+                                <option value="python-coding">Python Coding (Ages 10-16)</option>
+                                <option value="advanced-robotics">Advanced Robotics (Ages 13-18)</option>
+                                <option value="ai-for-kids">AI for Kids (Ages 12-16)</option>
+                                <option value="electronics">Electronics Workshop (Ages 14-20)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Preferred Schedule <span style="color: red;">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="schedule" value="weekday" required> Weekday (4:00-6:00 PM)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="schedule" value="weekend" required> Weekend (10:00 AM-1:00 PM)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Additional Information</label>
+                            <textarea id="message" name="message" class="form-control" placeholder="Share any specific requirements or questions"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">How did you hear about us?</label>
+                            <select name="referral" class="form-select">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="social-media">Social Media</option>
+                                <option value="friend">Friend or Family</option>
+                                <option value="school">School</option>
+                                <option value="event">Event or Workshop</option>
+                                <option value="search">Internet Search</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-enroll" style="width: 100%">Submit Enrollment</button>
+                    </form>
+                    
+                    <div class="enrollment-benefits fade-in delay-2">
+                        <h4><i class="fas fa-medal"></i> Benefits of Enrolling</h4>
+                        <ul class="benefits-list">
+                            <li><i class="fas fa-check-circle"></i> <span>Small class sizes with personalized attention</span></li>
+                            <li><i class="fas fa-check-circle"></i> <span>Hands-on learning with quality equipment</span></li>
+                            <li><i class="fas fa-check-circle"></i> <span>Expert instructors with industry experience</span></li>
+                            <li><i class="fas fa-check-circle"></i> <span>Opportunities to participate in national competitions</span></li>
+                            <li><i class="fas fa-check-circle"></i> <span>Certificate upon course completion</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">Robo Class Nepal</a>
+                    <p class="footer-text">Empowering the next generation of innovators in Nepal through hands-on technology education and fostering creativity and problem-solving skills.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links-container">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#home"><i class="fas fa-angle-right"></i> Home</a></li>
+                        <li><a href="index.html#about"><i class="fas fa-angle-right"></i> About Us</a></li>
+                        <li><a href="index.html#courses"><i class="fas fa-angle-right"></i> Courses</a></li>
+                        <li><a href="index.html#events"><i class="fas fa-angle-right"></i> Events</a></li>
+                        <li><a href="index.html#contact"><i class="fas fa-angle-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links-container">
+                    <h3 class="footer-title">Our Courses</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Basic Robotics</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Python Coding</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Advanced Robotics</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> AI for Kids</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Electronics Workshop</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links-container">
+                    <h3 class="footer-title">Newsletter</h3>
+                    <p class="footer-text">Subscribe to our newsletter to receive updates on new courses, events, and tech news.</p>
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Robo Class Nepal. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', function() {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Fade in animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        function checkFade() {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkFade);
+        window.addEventListener('load', checkFade);
+        
+        // Form validation
+        const enrollmentForm = document.getElementById('enrollmentForm');
+        
+        enrollmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            let valid = true;
+            
+            // Age validation
+            const age = document.getElementById('studentAge').value;
+            if (age < 8 || age > 20) {
+                alert('Student age must be between 8 and 20 years.');
+                valid = false;
+            }
+            
+            if (valid) {
+                // Add submission logic here (in real implementation)
+                alert('Thank you for your enrollment! We will contact you shortly to confirm your registration.');
+                this.reset();
+            }
+        });
+    </script>
+</body>
+</html>
